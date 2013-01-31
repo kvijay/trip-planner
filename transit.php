@@ -143,7 +143,7 @@
 <?php
 date_default_timezone_set('America/New_York');
 //Thu Jan 17 2013 19:13:45 GMT+0530
-$today = date('Y-m-d');//show it in textbox
+$today = date('Y-m-d');//show it in text box
 
 ?>
 
@@ -222,10 +222,8 @@ $today = date('Y-m-d');//show it in textbox
         if (document.getElementById('timeFormat').value == 'pm') {
             hours = 12 + parseInt(hours);
         }
-        console.log('hours ==== ' + hours);
-        console.log('minutes ==== ' + minutes);
-        var strTime = hours + ':' + minutes;
-        return strTime;
+
+        return hours + ':' + minutes;
     }
 
     function route() {
@@ -241,12 +239,13 @@ $today = date('Y-m-d');//show it in textbox
             type:'POST',
             data:{'date':document.getElementById('travelDate').value, 'time':timeChosen},
             success:function(data){
-                var dateIs = data;
-                console.log('return by ajax==='+dateIs);
 
-                var finalDate = new Date(dateIs);
+                alert(new Date())
+                console.log('return by ajax==='+data);
 
-                console.log('date sdsd ====' + finalDate);
+                var finalDate = new Date(data);
+                alert(new Date(finalDate))
+                console.log('finalDate ====' + finalDate);
 
                 if (document.getElementById("arrivalRadio").checked) {
                     console.log('in the arrivalRadio');
@@ -289,7 +288,6 @@ $today = date('Y-m-d');//show it in textbox
 
     }
     google.maps.event.addDomListener(window, 'load', initialize);
-
 
 
 </script>
