@@ -7,14 +7,15 @@
 <link href="jquery-ui-1.9.2.custom.min.css" media="screen" rel="Stylesheet" type="text/css"/>
 <script src="jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"
+        type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#travelDate").datepicker({
             showOn:"button",
             buttonImage:"images/calendar.gif",
             buttonImageOnly:true,
-            dateFormat:'yy-mm-dd',
+            dateFormat:'mm/dd/yy',
             minDate:new Date()
         });
     });
@@ -143,7 +144,7 @@
 <?php
 date_default_timezone_set('America/New_York');
 //Thu Jan 17 2013 19:13:45 GMT+0530
-$today = date('Y-m-d');//show it in text box
+$today = date('m/d/Y');//show it in text box
 
 ?>
 
@@ -203,14 +204,14 @@ $today = date('Y-m-d');//show it in text box
         var departHr = document.getElementById('departHr');
         var departMin = document.getElementById('departMin');
         for (var hr = 1; hr <= 12; hr++) {
-            departHr.innerHTML += '<option value = "'+hr+'">' + hr + '</option>';
+            departHr.innerHTML += '<option value = "' + hr + '">' + hr + '</option>';
         }
 
         for (var i = 0; i < 12; i++) {
             for (var j = 0; j < 60; j += 5) {
                 var x = i < 10 ? '0' + i : i;
                 var y = j < 10 ? '0' + j : j;
-                departMin.innerHTML += '<option value = "'+y+'">' + y + '</option>';
+                departMin.innerHTML += '<option value = "' + y + '">' + y + '</option>';
             }
         }
     }
@@ -233,58 +234,60 @@ $today = date('Y-m-d');//show it in text box
         var timeChosen = formatAMPM();
 
         //create date format
-       // var dateIs = createDate(document.getElementById('travelDate').value, timeChosen);
-        $.ajax({
-            url:'date.php',
-            type:'POST',
-            data:{'date':document.getElementById('travelDate').value, 'time':timeChosen},
-            success:function(data){
+        // var dateIs = createDate(document.getElementById('travelDate').value, timeChosen);
+//        $.ajax({
+//            url:'date.php',
+//            type:'POST',
+//            data:{'date':document.getElementById('travelDate').value, 'time':timeChosen},
+//            success:function(data){
 
-                //alert(new Date())
-                console.log('return by ajax==='+data);
+        //alert(new Date())
+        var data = $('#travelDate').val() + ' ' + timeChosen + ' -0500';
+        console.log('return by ajax===' + data);
 
-                var finalDate = new Date(data);
-                //alert(new Date(finalDate))
-                console.log('finalDate ====' + finalDate);
+        //'02/07/2013 7:00:00 -0500'
+        var finalDate = new Date(data);
+        //alert(new Date(finalDate))
+        console.log('finalDate ====' + finalDate);
 
-                if (document.getElementById("arrivalRadio").checked) {
-                    console.log('in the arrivalRadio');
-                    var request = {
-                        origin:startLocation,
-                        destination:endLocation,
-                        travelMode:google.maps.TravelMode[selectedMode],
-                        provideRouteAlternatives:true,
-                        transitOptions:{
-                            arrivalTime:finalDate
-                        }
-                    };
-                } else {
-                    console.log('in the departure');
-                    var request = {
-                        origin:startLocation,
-                        destination:endLocation,
-                        travelMode:google.maps.TravelMode[selectedMode],
-                        provideRouteAlternatives:true,
-                        transitOptions:{
-                            departureTime:finalDate
-                        }
-                    };
+        if (document.getElementById("arrivalRadio").checked) {
+            console.log('in the arrivalRadio');
+            var request = {
+                origin:startLocation,
+                destination:endLocation,
+                travelMode:google.maps.TravelMode[selectedMode],
+                provideRouteAlternatives:true,
+                transitOptions:{
+                    arrivalTime:finalDate
                 }
+            };
+        } else {
+            console.log('in the departure');
+            var request = {
+                origin:startLocation,
+                destination:endLocation,
+                travelMode:google.maps.TravelMode[selectedMode],
+                provideRouteAlternatives:true,
+                transitOptions:{
+                    departureTime:finalDate
+                }
+            };
+        }
 
-                var panel = document.getElementById('panel');
-                panel.innerHTML = '';
-                directions.route(request, function (response, status) {
-                    if (status == google.maps.DirectionsStatus.OK) {
-                        renderer.setDirections(response);
-                        renderer.setMap(map);
-                        renderer.setPanel(panel);
-                    } else {
-                        renderer.setPanel(null);
-                        //alert(status);
-                    }
-                });
+        var panel = document.getElementById('panel');
+        panel.innerHTML = '';
+        directions.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                renderer.setDirections(response);
+                renderer.setMap(map);
+                renderer.setPanel(panel);
+            } else {
+                renderer.setPanel(null);
+                //alert(status);
             }
         });
+//            }
+//        });
 
     }
     google.maps.event.addDomListener(window, 'load', initialize);
