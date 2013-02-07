@@ -215,13 +215,13 @@ $today = date('m/d/Y');//show it in text box
     }
 
     function formatAMPM() {
-        var hours;
+        var hours =  $('#departHr').val();
 
         if (document.getElementById('timeFormat').value == 'pm') {
-            hours = 12 + $('#departHr').val();
+            hours  = Number(hours) + Number(12);
         }
 
-        return parseInt(hours) + ':' + parseInt($('#departMin').val()) + ':00';
+        return hours + ':' + Number($('#departMin').val()) + ':00';
     }
 
     function route() {
