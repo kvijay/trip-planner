@@ -224,7 +224,7 @@ $today = date('m/d/Y');//show it in text box
             hours = 12 + parseInt(hours);
         }
 
-        return hours + ':' + minutes;
+        return parseInt(hours) + ':' + parseInt(minutes) + ':00';
     }
 
     function route() {
@@ -233,23 +233,10 @@ $today = date('m/d/Y');//show it in text box
         var selectedMode = document.getElementById('modeOfTransportation').value;
         var timeChosen = formatAMPM();
 
-        //create date format
-        // var dateIs = createDate(document.getElementById('travelDate').value, timeChosen);
-//        $.ajax({
-//            url:'date.php',
-//            type:'POST',
-//            data:{'date':document.getElementById('travelDate').value, 'time':timeChosen},
-//            success:function(data){
-
-        //alert(new Date())
         var data = $('#travelDate').val() + ' ' + timeChosen + ' -0500';
-        console.log('return by ajax===' + data);
-
-        //'02/07/2013 7:00:00 -0500'
+        console.log(data);
         var finalDate = new Date(data);
-        //alert(new Date(finalDate))
-        console.log('finalDate ====' + finalDate);
-
+        console.log(finalDate);
         if (document.getElementById("arrivalRadio").checked) {
             console.log('in the arrivalRadio');
             var request = {
@@ -286,9 +273,6 @@ $today = date('m/d/Y');//show it in text box
                 //alert(status);
             }
         });
-//            }
-//        });
-
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 
