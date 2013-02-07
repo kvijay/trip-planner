@@ -201,30 +201,27 @@ $today = date('m/d/Y');//show it in text box
     }
 
     function addDepart() {
-        var departHr = document.getElementById('departHr');
-        var departMin = document.getElementById('departMin');
         for (var hr = 1; hr <= 12; hr++) {
-            departHr.innerHTML += '<option value = "' + hr + '">' + hr + '</option>';
+            $('#departHr').append('<option value = "' + hr + '">' + hr + '</option>');
         }
 
         for (var i = 0; i < 12; i++) {
             for (var j = 0; j < 60; j += 5) {
                 var x = i < 10 ? '0' + i : i;
                 var y = j < 10 ? '0' + j : j;
-                departMin.innerHTML += '<option value = "' + y + '">' + y + '</option>';
+                $('#departMin').append('<option value = "' + y + '">' + y + '</option>');
             }
         }
     }
 
     function formatAMPM() {
-        var hours = document.getElementById('departHr').value;
-        var minutes = document.getElementById('departMin').value;
+        var hours;
 
         if (document.getElementById('timeFormat').value == 'pm') {
-            hours = 12 + parseInt(hours);
+            hours = 12 + parseInt($('#departHr').val());
         }
 
-        return parseInt(hours) + ':' + parseInt(minutes) + ':00';
+        return parseInt(hours) + ':' + parseInt($('#departMin').val()) + ':00';
     }
 
     function route() {
