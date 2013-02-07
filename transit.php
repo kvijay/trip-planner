@@ -218,7 +218,7 @@ $today = date('m/d/Y');//show it in text box
         var hours;
 
         if (document.getElementById('timeFormat').value == 'pm') {
-            hours = 12 + parseInt($('#departHr').val());
+            hours = 12 + $('#departHr').val();
         }
 
         return parseInt(hours) + ':' + parseInt($('#departMin').val()) + ':00';
