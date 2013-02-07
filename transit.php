@@ -240,11 +240,11 @@ $today = date('Y-m-d');//show it in text box
             data:{'date':document.getElementById('travelDate').value, 'time':timeChosen},
             success:function(data){
 
-                alert(new Date())
+                //alert(new Date())
                 console.log('return by ajax==='+data);
 
                 var finalDate = new Date(data);
-                alert(new Date(finalDate))
+                //alert(new Date(finalDate))
                 console.log('finalDate ====' + finalDate);
 
                 if (document.getElementById("arrivalRadio").checked) {
